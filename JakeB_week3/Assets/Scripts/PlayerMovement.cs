@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour {
     private PlayerControls playerControls;
     private Vector2 inputVector;
 
+    public float xRange;
+    public float zRange;
+
     //animations
     private bool isWalking;
 
@@ -19,6 +22,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update() {
         HandleMovement();
+        bounds();
     }
 
     private void HandleMovement() {
@@ -33,6 +37,21 @@ public class PlayerMovement : MonoBehaviour {
 
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
     }
+
+    void bounds() {
+        if(transform.position.x >= xRange) {
+            transform.position = new Vector3(xRange, 0, transform.position.z);
+        }
+        if (transform.position.x <= -xRange) {
+            transform.position = new Vector3(-xRange, 0, transform.position.z);
+        }
+        else if (transform.position.z > zRange) {
+            transform.position = new Vector3(transform.position.x, transform.position.y, zRange);
+        }
+        if (transform.position.z < -4) {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -4);
+        }
+    } 
 
     //animation fields
     public bool IsWalking() {
