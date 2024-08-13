@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileMovement : MonoBehaviour
-{
+public class ProjectileMovement : MonoBehaviour {
     public float projectileSpeed = 30f;
     private Rigidbody rb;
 
-    void Start()
-    {
+    void Start() {
         rb = GetComponent<Rigidbody>();
 
         //AddForce: We apply a force in the forward direction using Rigidbody.AddForce. The ForceMode.VelocityChange mode is used to instantly change the velocity without considering the object's mass.
@@ -18,8 +16,18 @@ public class ProjectileMovement : MonoBehaviour
     }
 
 
-    void Update()
-    {
+    void Update() {
         //transform.Translate(Vector3.forward * projectileSpeed * Time.deltaTime);
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        if (collision.transform.tag == "Animal") {
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
+        }
+        // Check if the projectile collided with the Ground
+        if (collision.transform.CompareTag("Ground")) {
+            Destroy(gameObject);
+        }
     }
 }
