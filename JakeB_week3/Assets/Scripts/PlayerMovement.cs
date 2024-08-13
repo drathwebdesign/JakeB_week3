@@ -9,11 +9,15 @@ public class PlayerMovement : MonoBehaviour {
     private PlayerControls playerControls;
     private Vector2 inputVector;
 
+    //shooting
+    public GameObject fish;
+    public Transform firePoint;
+
     public float xRange;
-    public float zRange;
 
     //animations
     private bool isWalking;
+    private bool isThrowing;
 
     void Awake() {
         playerControls = new PlayerControls();
@@ -23,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
     void Update() {
         HandleMovement();
         bounds();
+        shoot();
     }
 
     private void HandleMovement() {
@@ -32,10 +37,9 @@ public class PlayerMovement : MonoBehaviour {
 
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
+        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
         //is walking for animations
         isWalking = moveDir != Vector3.zero;
-
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
     }
 
     void bounds() {
@@ -45,16 +49,27 @@ public class PlayerMovement : MonoBehaviour {
         if (transform.position.x <= -xRange) {
             transform.position = new Vector3(-xRange, 0, transform.position.z);
         }
-        else if (transform.position.z > zRange) {
-            transform.position = new Vector3(transform.position.x, transform.position.y, zRange);
+        else if (transform.position.z > 18) {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 18);
         }
         if (transform.position.z < -4) {
             transform.position = new Vector3(transform.position.x, transform.position.y, -4);
         }
-    } 
+    }
+
+    //change transform.position to firePoint
+    void shoot() {
+        if (Input.GetKey(KeyCode.F)) {
+            Destroy(Instantiate(fish, firePoint.position, firePoint.rotation), 4);
+            isThrowing = true;
+        }
+    }
 
     //animation fields
     public bool IsWalking() {
         return isWalking;
+    }
+    public bool IsThrowing() {
+        return isThrowing;
     }
 }
