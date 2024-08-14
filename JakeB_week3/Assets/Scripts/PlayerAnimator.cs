@@ -5,20 +5,18 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private const string IS_WALKING = "IsWalking";
-    private const string IS_THROWING = "IsThrowing";
 
-    private PlayerMovement playerMovement;
+    private PlayerMovementTest playerMovementTest;
     private Animator animator;
 
     private void Awake() {
         animator = GetComponent<Animator>();
-        playerMovement = GetComponent<PlayerMovement>();
+        playerMovementTest = GetComponent<PlayerMovementTest>();
     }
 
 
     void Update()
     {
-        animator.SetBool(IS_WALKING, playerMovement.IsWalking());
-        animator.SetBool(IS_THROWING, playerMovement.IsThrowing());
+        animator.SetBool(IS_WALKING, playerMovementTest.IsWalking());
     }
 }

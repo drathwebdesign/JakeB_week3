@@ -10,14 +10,14 @@ public class PlayerMovement : MonoBehaviour {
     private Vector2 inputVector;
 
     //shooting
-    public GameObject fish;
+    public GameObject bullet;
     public Transform firePoint;
 
-    public float xRange;
+    public float xRange = 50f;
+    public float zRange = 28f;
 
     //animations
     private bool isWalking;
-    private bool isThrowing;
 
     void Awake() {
         playerControls = new PlayerControls();
@@ -49,27 +49,23 @@ public class PlayerMovement : MonoBehaviour {
         if (transform.position.x <= -xRange) {
             transform.position = new Vector3(-xRange, 0, transform.position.z);
         }
-        else if (transform.position.z > 18) {
-            transform.position = new Vector3(transform.position.x, transform.position.y, 18);
+        else if (transform.position.z > zRange) {
+            transform.position = new Vector3(transform.position.x, transform.position.y, zRange);
         }
-        if (transform.position.z < -4) {
-            transform.position = new Vector3(transform.position.x, transform.position.y, -4);
+        if (transform.position.z < -zRange) {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -zRange);
         }
     }
 
     //change transform.position to firePoint
     void shoot() {
-        if (Input.GetKey(KeyCode.F)) {
-            Destroy(Instantiate(fish, firePoint.position, firePoint.rotation), 4);
-            isThrowing = true;
+        if (Input.GetKey(KeyCode.Space)) {
+            Destroy(Instantiate(bullet, firePoint.position, firePoint.rotation), 4);
         }
     }
 
     //animation fields
     public bool IsWalking() {
         return isWalking;
-    }
-    public bool IsThrowing() {
-        return isThrowing;
     }
 }

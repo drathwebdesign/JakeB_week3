@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Animal
   - Ground
+  - Spider
   layers:
   - Default
   - TransparentFX

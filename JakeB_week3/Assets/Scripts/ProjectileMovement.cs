@@ -21,9 +21,13 @@ public class ProjectileMovement : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision collision) {
-        if (collision.transform.tag == "Animal") {
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
+        if (collision.transform.tag == "Spider") {
+            SpiderAI spiderAI = collision.transform.GetComponent<SpiderAI>();
+            if (spiderAI != null) {
+                // Call the Die method to handle the spider's death
+                spiderAI.Die();
+            }
+            Destroy(collision.gameObject, 1f);
         }
         // Check if the projectile collided with the Ground
         if (collision.transform.CompareTag("Ground")) {
