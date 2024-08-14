@@ -24,8 +24,7 @@ public class ProjectileMovement : MonoBehaviour {
         if (collision.transform.tag == "Spider") {
             SpiderAI spiderAI = collision.transform.GetComponent<SpiderAI>();
             if (spiderAI != null) {
-                // Call the Die method to handle the spider's death
-                spiderAI.Die();
+                spiderAI.TakeDamage(1); // Deal 1 damage to the spider
             }
             Destroy(collision.gameObject, 1f);
         }

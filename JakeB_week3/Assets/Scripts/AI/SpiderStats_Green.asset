@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: SpiderStats_Green
   m_EditorClassIdentifier: 
   moveSpeed: 8
+  scoreValue: 1
+  maxHealth: 2

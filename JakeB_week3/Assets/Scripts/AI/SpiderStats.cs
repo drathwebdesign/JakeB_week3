@@ -6,4 +6,5 @@ using UnityEngine;
 public class SpiderStats : ScriptableObject {
     public float moveSpeed = 8f;
     public int scoreValue = 1;
+    public int maxHealth = 3;
 }

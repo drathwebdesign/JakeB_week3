@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -16,12 +17,21 @@ public class PlayerMovement : MonoBehaviour {
     public float xRange = 50f;
     public float zRange = 28f;
 
+    //health & invulnerability
+    public int maxHealth = 3; 
+    private int currentHealth;
+    private bool isInvulnerable = false;
+    public float invulnerabilityDuration = 1f;
+
     //animations
     private bool isWalking;
+    private bool isDieing;
 
     void Awake() {
         playerControls = new PlayerControls();
         playerControls.Player.Enable();
+
+        currentHealth = maxHealth;
     }
 
     void Update() {
@@ -64,8 +74,39 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    public void TakeDamage(int damage) {
+        if (!isInvulnerable) {
+            currentHealth -= damage;
+
+            if (currentHealth <= 0) {
+                Die();
+            } else {
+                StartCoroutine(InvulnerabilityCoroutine());
+            }
+        }
+    }
+
+    private void Die() {
+        Debug.Log("Player has died!");
+        if (isDieing) return; // Stop Die from being called multiple times
+
+        isDieing = true;
+        // Stop the spider's movement immediately
+        isWalking = false;
+        Destroy(gameObject, 3f);
+    }
+
+    private IEnumerator InvulnerabilityCoroutine() {
+        isInvulnerable = true;
+        yield return new WaitForSeconds(invulnerabilityDuration);
+        isInvulnerable = false;
+    }
+
     //animation fields
     public bool IsWalking() {
         return isWalking;
+    }
+    public bool IsDieing() {
+        return isDieing;
     }
 }

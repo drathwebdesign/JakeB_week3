@@ -7,8 +7,10 @@ public class SpiderAI : MonoBehaviour {
 
     private Transform playerTransform;
     public SpiderStats spiderStats;
-
+    private PlayerMovement playerMovement;
     private ScoreManager scoreManager;
+
+    private int currentHealth;
 
     //animations
     private bool isWalking;
@@ -17,10 +19,10 @@ public class SpiderAI : MonoBehaviour {
 
     void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null) {
-            playerTransform = player.transform;
-        }
+        playerTransform = player.transform;
+        playerMovement = player.GetComponent<PlayerMovement>();
         scoreManager = FindObjectOfType<ScoreManager>();
+        currentHealth = spiderStats.maxHealth;
     }
 
     void Update() {
@@ -42,8 +44,22 @@ public class SpiderAI : MonoBehaviour {
     void OnCollisionEnter(Collision collision) {
         if (collision.transform.tag == "Player") {
             isAttacking = true;
+            if (playerMovement != null) {
+                playerMovement.TakeDamage(1); // Deal 1 damage (adjust as necessary)
+            }
             Destroy(gameObject, 1f); // Destroy this object
             Debug.Log("Hit Player");
+        }
+    }
+
+    // Method to take damage
+    public void TakeDamage(int damage) {
+        if (isDieing) return; // Do nothing if the spider is already dying
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0) {
+            Die();
         }
     }
 
