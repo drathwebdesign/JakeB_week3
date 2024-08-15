@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 12
   scoreValue: 2
-  maxHealth: 2
+  maxHealth: 7

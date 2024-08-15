@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour {
 
-    public float moveSpeed = 7f;
-    float rotateSpeed = 10f;
+    public float moveSpeed = 20f;
+    //float rotateSpeed = 10f;
     private PlayerControls playerControls;
     private Vector2 inputVector;
+    private Vector2 lookInput;
 
     //shooting
-    public GameObject bullet;
-    public Transform firePoint;
+    //public GameObject bullet;
+    //public Transform firePoint;
 
     public float xRange = 50f;
     public float zRange = 28f;
@@ -37,20 +39,35 @@ public class PlayerMovement : MonoBehaviour {
     void Update() {
         HandleMovement();
         bounds();
-        shoot();
+        HandleRotation();
+        //shoot();
     }
 
     private void HandleMovement() {
         inputVector = playerControls.Player.Move.ReadValue<Vector2>();
-
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
-
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+        //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
         //is walking for animations
         isWalking = moveDir != Vector3.zero;
     }
+
+    private void HandleRotation() {
+        // Get the mouse position in screen space
+        lookInput = playerControls.Player.Look.ReadValue<Vector2>();
+
+        // Convert screen position to world position
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(lookInput.x, lookInput.y, Camera.main.transform.position.y));
+
+        // Calculate the direction to look at
+        Vector3 lookDirection = mouseWorldPosition - transform.position;
+        lookDirection.y = 0f; // Keep rotation in the XZ plane
+
+        // Apply rotation to face the mouse
+        transform.rotation = Quaternion.LookRotation(lookDirection);
+    }
+
 
     void bounds() {
         if(transform.position.x >= xRange) {
@@ -67,12 +84,11 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    //change transform.position to firePoint
-    void shoot() {
-        if (Input.GetKey(KeyCode.Space)) {
-            Destroy(Instantiate(bullet, firePoint.position, firePoint.rotation), 4);
-        }
-    }
+    //void shoot() {
+    //    if (Input.GetKey(KeyCode.Space)) {
+    //        Destroy(Instantiate(bullet, firePoint.position, firePoint.rotation), 4);
+    //    }
+    //}
 
     public void TakeDamage(int damage) {
         if (!isInvulnerable) {

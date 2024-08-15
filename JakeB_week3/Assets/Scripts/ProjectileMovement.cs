@@ -26,7 +26,7 @@ public class ProjectileMovement : MonoBehaviour {
             if (spiderAI != null) {
                 spiderAI.TakeDamage(1); // Deal 1 damage to the spider
             }
-            Destroy(collision.gameObject, 1f);
+            Destroy(gameObject);
         }
         // Check if the projectile collided with the Ground
         if (collision.transform.CompareTag("Ground")) {

@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2a54f0d1e2ca1e4ab9c25116b5015fa, type: 3}
-  m_Name: SpiderStats_Black
+  m_Script: {fileID: 11500000, guid: 819b57cbe853bea4dae51316b6b41558, type: 3}
+  m_Name: WeaponStats_M249
   m_EditorClassIdentifier: 
-  moveSpeed: 15
-  scoreValue: 3
-  maxHealth: 4
+  weaponName: M249
+  damage: 1
+  range: 50
+  fireRate: 10
+  timeToNextFire: 0.01
+  numberOfProjectiles: 1
+  aimConeAngle: 1
