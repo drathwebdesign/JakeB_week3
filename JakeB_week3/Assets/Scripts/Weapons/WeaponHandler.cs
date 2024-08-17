@@ -37,11 +37,17 @@ public class WeaponHandler : MonoBehaviour {
             // Shotgun or spread weapon logic
             for (int i = 0; i < weaponStats.numberOfProjectiles; i++) {
                 Quaternion spreadRotation = Quaternion.Euler(0, Random.Range(-weaponStats.aimConeAngle, weaponStats.aimConeAngle), 0);
-                Instantiate(projectilePrefab, firePoint.position, firePoint.rotation * spreadRotation);
+                GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation * spreadRotation);
+                ProjectileMovement projectileMovement = projectile.GetComponent<ProjectileMovement>(); {
+                    projectileMovement.weaponStats = weaponStats;
+                }
             }
         } else {
             // Single shot logic
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            ProjectileMovement projectileMovement = projectile.GetComponent<ProjectileMovement>(); {
+                projectileMovement.weaponStats = weaponStats;
+            }
         }
     }
 }

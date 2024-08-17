@@ -16,6 +16,6 @@ MonoBehaviour:
   damage: 1
   range: 50
   fireRate: 10
-  timeToNextFire: 0.01
+  timeToNextFire: 0.05
   numberOfProjectiles: 1
   aimConeAngle: 1

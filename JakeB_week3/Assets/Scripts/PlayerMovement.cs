@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -24,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
     private int currentHealth;
     private bool isInvulnerable = false;
     public float invulnerabilityDuration = 1f;
+    public Image healthBarImage;
 
     //animations
     private bool isWalking;
@@ -34,6 +36,10 @@ public class PlayerMovement : MonoBehaviour {
         playerControls.Player.Enable();
 
         currentHealth = maxHealth;
+    }
+
+    void Start() {
+        UpdateHealthUI();
     }
 
     void Update() {
@@ -98,7 +104,15 @@ public class PlayerMovement : MonoBehaviour {
                 Die();
             } else {
                 StartCoroutine(InvulnerabilityCoroutine());
+                UpdateHealthUI();
             }
+        }
+    }
+
+    private void UpdateHealthUI() {
+        if (healthBarImage != null) {
+            // Update the fill amount of the health bar
+            healthBarImage.fillAmount = (float)currentHealth / maxHealth /3.33f;
         }
     }
 
@@ -107,9 +121,9 @@ public class PlayerMovement : MonoBehaviour {
         if (isDieing) return; // Stop Die from being called multiple times
 
         isDieing = true;
-        // Stop the spider's movement immediately
         isWalking = false;
-        Destroy(gameObject, 3f);
+        playerControls.Player.Disable();
+        GameManager.instance.PlayerDied();
     }
 
     private IEnumerator InvulnerabilityCoroutine() {

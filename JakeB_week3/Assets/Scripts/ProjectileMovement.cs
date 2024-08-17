@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectileMovement : MonoBehaviour {
     public float projectileSpeed = 30f;
     private Rigidbody rb;
+    public WeaponStats weaponStats;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -24,7 +25,7 @@ public class ProjectileMovement : MonoBehaviour {
         if (collision.transform.tag == "Spider") {
             SpiderAI spiderAI = collision.transform.GetComponent<SpiderAI>();
             if (spiderAI != null) {
-                spiderAI.TakeDamage(1); // Deal 1 damage to the spider
+                spiderAI.TakeDamage(weaponStats.damage);
             }
             Destroy(gameObject);
         }

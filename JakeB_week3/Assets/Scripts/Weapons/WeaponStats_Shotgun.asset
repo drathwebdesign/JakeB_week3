@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponStats_Shotgun
   m_EditorClassIdentifier: 
   weaponName: Shotgun
-  damage: 10
+  damage: 4
   range: 15
   fireRate: 1.5
   timeToNextFire: 1

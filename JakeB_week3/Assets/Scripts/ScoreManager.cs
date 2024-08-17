@@ -21,4 +21,8 @@ public class ScoreManager : MonoBehaviour {
             spidersKilled.text = "Spiders Killed: " + score.ToString();
         }
     }
+
+    public int GetScore() {
+        return score; // Return the current score
+    }
 }

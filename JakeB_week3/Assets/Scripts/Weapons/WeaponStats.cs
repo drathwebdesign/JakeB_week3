@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponStats", menuName = "ScriptableObjects/WeaponStats", order = 1)]
 public class WeaponStats : ScriptableObject {
     public string weaponName;
-    public float damage;
+    public int damage;
     public float range;
     public float fireRate; // Shots per second
     public float timeToNextFire; // Time between shots
